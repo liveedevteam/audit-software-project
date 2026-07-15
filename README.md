@@ -1,5 +1,6 @@
 # audit-software-project
 
+[![npm version](https://img.shields.io/npm/v/audit-software-project.svg)](https://www.npmjs.com/package/audit-software-project)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-5A32FB.svg)](https://claude.com/claude-code)
 
