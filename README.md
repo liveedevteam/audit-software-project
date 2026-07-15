@@ -1,5 +1,8 @@
 # audit-software-project
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Claude Code Skill](https://img.shields.io/badge/Claude%20Code-Skill-5A32FB.svg)](https://claude.com/claude-code)
+
 An evidence-based engineering audit skill for [Claude Code](https://claude.com/claude-code).
 
 Point it at a local repository and it inspects the codebase across 13
