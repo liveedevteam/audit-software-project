@@ -1,0 +1,100 @@
+<!-- SAMPLE / FICTIONAL DATA — abbreviated for demonstration; a real audit's
+     criteria.html includes all ~47 controls, not just the ones this sample
+     report references. -->
+<title>Criteria — Acme Notes (sample) — 2026-07-15</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 860px; margin: 0 auto; padding: 0 1.5rem 3rem; line-height: 1.5; }
+  nav.topnav { position: sticky; top: 0; display: flex; gap: 0.4rem; padding: 0.6rem 0; margin: 0 -1.5rem 1.2rem; padding-left: 1.5rem; backdrop-filter: blur(8px); background: rgba(128,128,128,0.08); border-bottom: 1px solid rgba(128,128,128,0.25); z-index: 10; }
+  nav.topnav a { text-decoration: none; color: inherit; padding: 0.25rem 0.8rem; border-radius: 999px; font-size: 0.9rem; }
+  nav.topnav a.current { background: rgba(128,128,128,0.25); font-weight: 600; }
+  nav.topnav a:hover:not(.current) { background: rgba(128,128,128,0.15); }
+  h1 { font-size: 1.6rem; margin: 1rem 0 0.2rem; }
+  h2 { font-size: 1.1rem; margin-top: 2rem; border-bottom: 1px solid currentColor; padding-bottom: 0.3rem; opacity: 0.9; }
+  .meta { opacity: 0.7; font-size: 0.9rem; margin-bottom: 1.2rem; }
+  .banner { border: 1px dashed rgba(128,128,128,0.5); border-radius: 8px; padding: 0.7rem 1rem; margin-bottom: 1.4rem; font-size: 0.88rem; opacity: 0.85; }
+  .snapshot-note { border-left: 4px solid #6b7280; padding: 0.7rem 1rem; background: rgba(107,114,128,0.08); font-size: 0.88rem; margin-bottom: 1.5rem; }
+  table { border-collapse: collapse; width: 100%; margin: 0.8rem 0; font-size: 0.87rem; }
+  th, td { border: 1px solid rgba(128,128,128,0.35); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+  th { background: rgba(128,128,128,0.12); }
+  tr[id] { scroll-margin-top: 4rem; }
+  tr:target { outline: 2px solid #d97706; }
+  code { background: rgba(128,128,128,0.15); padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.88em; }
+</style>
+
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a href="audit-report.html">Audit Report</a>
+  <a href="gap-register.html">Gap Register</a>
+  <a class="current" href="criteria.html">Criteria</a>
+</nav>
+
+<h1>Audit Criteria — Acme Notes</h1>
+<div class="meta">Snapshot as of 2026-07-15 &middot; 47 controls across 13 domains (full skill)</div>
+
+<div class="banner">Sample data — this page is abbreviated to only the
+controls referenced by this sample report's findings. A real audit's
+criteria.html lists all ~47 controls in full, as generated fresh per run.</div>
+
+<div class="snapshot-note">
+This page shows exactly what each finding in this audit was measured
+against. It is a snapshot taken on 2026-07-15 — the standard this
+project's audits are judged against may be refined over time, so a later
+audit's criteria page may differ slightly from this one. Findings link
+here by control ID (e.g. "control 3.4").
+</div>
+
+<h2 id="d3">3. Repository and source-control safeguards</h2>
+<table>
+  <thead><tr><th>ID</th><th>Control</th><th>Evidence required</th><th>Green</th><th>Red</th></tr></thead>
+  <tbody>
+    <tr id="c3-3"><td>3.3</td><td>CI required to pass before merge</td><td>Branch protection required status checks, <code>.github/workflows</code></td><td>CI is required and covers build/test at minimum</td><td>CI exists but is not required, or doesn't exist at all</td></tr>
+    <tr id="c3-4"><td>3.4</td><td>No secrets committed to history</td><td>Standard secret/PII hunt across tracked files and history</td><td>No live-looking secrets found in tree or reachable history</td><td>A live-looking secret is found — always Red, always immediate blocker</td></tr>
+  </tbody>
+</table>
+
+<h2 id="d5">5. Automated testing and critical behavior coverage</h2>
+<table>
+  <thead><tr><th>ID</th><th>Control</th><th>Evidence required</th><th>Green</th><th>Amber</th></tr></thead>
+  <tbody>
+    <tr id="c5-4"><td>5.4</td><td>Integration/e2e coverage on critical flows</td><td>Test files exercising a full flow vs. unit tests covering isolated functions only</td><td>At least one critical flow has integration/e2e-level coverage</td><td>Critical flows have unit coverage only, no integration/e2e layer exists</td></tr>
+  </tbody>
+</table>
+
+<h2 id="d9">9. Operations, monitoring, alerts, backups, and recovery</h2>
+<table>
+  <thead><tr><th>ID</th><th>Control</th><th>Evidence required</th><th>Green</th><th>Red</th></tr></thead>
+  <tbody>
+    <tr id="c9-3"><td>9.3</td><td>Alerting configured, not just monitoring installed</td><td>Alert-rule config in repo, or project-owner confirmation at intake</td><td>Alerting rules defined in-repo or confirmed by the owner</td><td>Owner confirms monitoring exists but no alerts are configured</td></tr>
+  </tbody>
+</table>
+
+<h2 id="d11">11. Performance and scalability</h2>
+<table>
+  <thead><tr><th>ID</th><th>Control</th><th>Evidence required</th><th>Green</th><th>Red / Amber</th></tr></thead>
+  <tbody>
+    <tr id="c11-1"><td>11.1</td><td>Unbounded queries</td><td>Hot-path data access missing pagination/<code>LIMIT</code></td><td>User-facing list endpoints are paginated or bounded</td><td><strong>Red:</strong> a user-facing endpoint returns an unbounded result set from an unbounded table</td></tr>
+    <tr id="c11-2"><td>11.2</td><td>N+1 query patterns</td><td>Database call issued inside a loop over a fetched collection</td><td>No such pattern found, or found instances are already batched</td><td><strong>Amber:</strong> an N+1 shape is found in a critical, user-facing path</td></tr>
+    <tr id="c11-4"><td>11.4</td><td>Caching on read-heavy paths</td><td>Caching layer presence cross-checked against expensive aggregate-read endpoints</td><td>Caching present where expensive reads exist, or no evidence of an expensive read path</td><td><strong>Amber only, never Red:</strong> expensive computed reads with no caching AND repo evidence of an acknowledged performance concern</td></tr>
+  </tbody>
+</table>
+
+<h2 id="d12">12. API contract and versioning discipline</h2>
+<table>
+  <thead><tr><th>ID</th><th>Control</th><th>Evidence required</th><th>Green</th><th>Red</th></tr></thead>
+  <tbody>
+    <tr id="c12-1"><td>12.1</td><td>API surface is documented</td><td>OpenAPI/Swagger spec, GraphQL schema, or typed client vs. handler-code-only routes</td><td>The external API surface has a machine-readable or published spec</td><td>An externally-consumed API has no documentation of its surface anywhere</td></tr>
+  </tbody>
+</table>
+
+<h2 id="d14">14. Data lifecycle and retention</h2>
+<table>
+  <thead><tr><th>ID</th><th>Control</th><th>Evidence required</th><th>Green</th><th>Red</th></tr></thead>
+  <tbody>
+    <tr id="c14-2"><td>14.2</td><td>Deletion actually deletes</td><td>Locate and read the account/data-deletion endpoint or flow</td><td>Hard delete, or soft delete with a working purge job/process</td><td>"Deleted" user PII remains queryable or is still served after a user-facing deletion action, while the product promises deletion</td></tr>
+  </tbody>
+</table>
+
+<p style="font-size:0.85rem;opacity:0.75;margin-top:2rem">See the full
+<a href="https://github.com/liveedevteam/audit-software-project/blob/master/references/audit-controls.md">control set</a>
+in the skill's source for all ~47 controls across all 13 domains.</p>

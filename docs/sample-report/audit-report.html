@@ -1,0 +1,215 @@
+<!-- SAMPLE / FICTIONAL DATA — illustrates report layout only. -->
+<title>Engineering Audit Report — Acme Notes (sample)</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 960px; margin: 0 auto; padding: 0 1.5rem 3rem; line-height: 1.5; }
+  nav.topnav { position: sticky; top: 0; display: flex; gap: 0.4rem; padding: 0.6rem 0; margin: 0 -1.5rem 1.2rem; padding-left: 1.5rem; backdrop-filter: blur(8px); background: rgba(128,128,128,0.08); border-bottom: 1px solid rgba(128,128,128,0.25); z-index: 10; }
+  nav.topnav a { text-decoration: none; color: inherit; padding: 0.25rem 0.8rem; border-radius: 999px; font-size: 0.9rem; }
+  nav.topnav a.current { background: rgba(128,128,128,0.25); font-weight: 600; }
+  nav.topnav a:hover:not(.current) { background: rgba(128,128,128,0.15); }
+  .toc { font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; padding: 0.5rem 0.9rem; border: 1px solid rgba(128,128,128,0.25); border-radius: 8px; margin: 0.8rem 0 1.4rem; }
+  .toc a { color: inherit; text-decoration: none; opacity: 0.85; }
+  .toc a:hover { text-decoration: underline; }
+  h1 { font-size: 1.6rem; margin: 1rem 0 0.2rem; }
+  h2 { font-size: 1.2rem; margin-top: 2.2rem; border-bottom: 1px solid currentColor; padding-bottom: 0.3rem; opacity: 0.9; scroll-margin-top: 4rem; }
+  h3 { font-size: 1rem; margin-top: 1.3rem; scroll-margin-top: 4rem; }
+  .meta { opacity: 0.7; font-size: 0.9rem; margin-bottom: 1.2rem; }
+  .banner { border: 1px dashed rgba(128,128,128,0.5); border-radius: 8px; padding: 0.7rem 1rem; margin-bottom: 1.4rem; font-size: 0.88rem; opacity: 0.85; }
+  .blockers-none { border-left: 4px solid #16a34a; padding: 0.8rem 1rem; background: rgba(22,163,74,0.08); }
+  .blockers { border-left: 4px solid #dc2626; padding: 0.8rem 1rem; background: rgba(220,38,38,0.08); }
+  .feature { border: 1px solid rgba(128,128,128,0.3); border-radius: 8px; padding: 1rem 1.2rem; margin: 1rem 0; }
+  code { background: rgba(128,128,128,0.15); padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.88em; }
+  .state-green { color: #16a34a; font-weight: 600; }
+  .state-amber { color: #d97706; font-weight: 600; }
+  .state-red { color: #dc2626; font-weight: 600; }
+  .state-nv, .state-na { color: #6b7280; font-weight: 600; }
+  .gaplink { font-size: 0.8rem; text-decoration: none; border: 1px solid rgba(128,128,128,0.4); border-radius: 999px; padding: 0.05rem 0.5rem; color: inherit; opacity: 0.8; }
+  .gaplink:hover { background: rgba(128,128,128,0.15); }
+  ol.plan li { margin-bottom: 0.6rem; }
+  ul.questions li, ul.findings li { margin-bottom: 0.5rem; }
+  .backtotop { font-size: 0.8rem; opacity: 0.7; }
+  .contest-note { font-size: 0.85rem; opacity: 0.85; border-left: 3px solid rgba(128,128,128,0.5); padding: 0.5rem 0.9rem; margin: 0.8rem 0 1.2rem; }
+  details.crit { display: inline; }
+  details.crit summary { display: inline; cursor: pointer; list-style: none; font-size: 0.8rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 999px; padding: 0.05rem 0.5rem; opacity: 0.75; }
+  details.crit summary::-webkit-details-marker { display: none; }
+  details.crit summary:hover { background: rgba(128,128,128,0.15); opacity: 1; }
+  details.crit[open] summary { opacity: 1; }
+  .crit-body { display: block; margin: 0.4rem 0 0.6rem 1rem; padding: 0.5rem 0.8rem; border-left: 2px solid rgba(128,128,128,0.4); font-size: 0.87rem; opacity: 0.9; }
+  .state-strip { font-size: 0.85rem; opacity: 0.85; margin-bottom: 0.6rem; }
+</style>
+
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a class="current" href="audit-report.html">Audit Report</a>
+  <a href="gap-register.html">Gap Register</a>
+  <a href="criteria.html">Criteria</a>
+</nav>
+
+<h1 id="top">Engineering Audit Report — Acme Notes</h1>
+<div class="meta">
+  Date: 2026-07-15 &middot; Auditor: audit-software-project skill &middot; Repository: github.com/example/acme-notes (fictional)<br>
+  Scope: Local repository inspection, plus read-only GitHub checks and a lockfile dependency scan
+</div>
+
+<div class="banner">Sample data — this is a fictional project with invented
+findings, included only to demonstrate the report format. No real audit
+data is published in this repository.</div>
+
+<p class="contest-note">States are assigned against the criteria in
+<a href="criteria.html">criteria.html</a> (click any control tag below to see
+the threshold inline). Findings marked Not Verified or Red can be revised if
+you hold evidence this audit couldn't access — see
+<a href="#questions">Questions requiring human confirmation</a>.</p>
+
+<div class="toc">
+  <a href="#summary">Summary</a>
+  <a href="#blockers">Blockers</a>
+  <a href="#plan">30-day plan</a>
+  <a href="#f-payments">Payments</a>
+  <a href="#f-accounts">Account management</a>
+  <a href="#f-auth">Authentication</a>
+  <a href="#f-notes">Notes management</a>
+  <a href="#f-infra">Deployment &amp; infra</a>
+  <a href="#questions">Questions</a>
+  <a href="#boundary">Boundary</a>
+  <a href="criteria.html">Criteria ↗</a>
+</div>
+
+<h2 id="summary">Executive summary</h2>
+<p>Acme Notes is a small customer-facing note-taking app with paid
+subscriptions. The most severe finding is a live-looking committed secret
+in the Payments feature (control 3.4) — an immediate blocker. Account
+management also has a Red: deleted accounts remain visible to internal
+search, a privacy-adjacent gap (control 14.2). Deployment &amp; infra and
+Notes management each carry moderate, non-blocking findings. Ownership and
+documentation are in good shape.</p>
+
+<h2 id="blockers">Immediate blockers</h2>
+<div class="blockers">
+  <a href="#f-payments">Payments — live-looking Stripe secret key committed in <code>config/settings.py:42</code></a>
+  <a class="gaplink" href="gap-register.html#g1">G1</a>
+</div>
+
+<h2 id="plan">30-day improvement plan</h2>
+<ol class="plan">
+  <li><strong>Payments:</strong> Rotate committed Stripe secret key and add secret scanning to CI <a class="gaplink" href="gap-register.html#g1">G1</a></li>
+  <li><strong>Account management:</strong> Fix soft-delete so purged accounts stop appearing in admin search <a class="gaplink" href="gap-register.html#g2">G2</a></li>
+  <li><strong>Deployment &amp; infra:</strong> Require CI to pass before merge on the default branch <a class="gaplink" href="gap-register.html#g3">G3</a></li>
+  <li><strong>Authentication:</strong> Add integration test coverage for the login/reset-password flow <a class="gaplink" href="gap-register.html#g4">G4</a></li>
+  <li><strong>Notes management:</strong> Add pagination to the unbounded <code>/api/notes</code> list endpoint <a class="gaplink" href="gap-register.html#g5">G5</a></li>
+</ol>
+
+<h2 id="risk">Risk context</h2>
+<p>Confirmed at intake: customer-facing SaaS handling personal data (note
+content, account emails) and payments, deployed via a third-party platform,
+with a small public API (no external consumers confirmed beyond the
+project's own mobile client).</p>
+
+<h2 id="findings">Findings by feature</h2>
+<p><em>States: <span class="state-green">Green</span> = adequate &amp; evidenced.
+<span class="state-amber">Amber</span> = partial/inconsistent/moderate risk.
+<span class="state-red">Red</span> = missing/significant risk.
+<span class="state-nv">Not Verified</span> = evidence unavailable, not a failure.
+<span class="state-na">Not Applicable</span> = doesn't apply, reason stated.
+Control IDs in parentheses trace to <code>audit-controls.md</code>; G-tags link
+to the gap register.</em></p>
+
+<div class="feature" id="f-payments">
+  <h3>Payments</h3>
+  <div class="state-strip">🔴 1 &middot; 🟢 3 &middot; ⚪ 1</div>
+  <ul class="findings">
+    <li><span class="state-red">Red</span> — Live-looking Stripe secret key (<code>sk_live_...</code>) committed in <code>config/settings.py:42</code>.
+      <details class="crit"><summary>control 3.4</summary><div class="crit-body"><strong>Green requires:</strong> no live-looking secrets found in tree or reachable history.<br><strong>This finding:</strong> a live-looking secret is found — always Red, always immediate blocker.</div></details>
+      <a class="gaplink" href="gap-register.html#g1">G1</a></li>
+    <li><span class="state-green">Green</span> — Webhook handler verifies Stripe signatures with the SDK's constant-time check before processing events (control 8.3).</li>
+    <li><span class="state-green">Green</span> — Payment mutation endpoints require an authenticated session and validate input via a Zod schema before use (controls 8.1, 8.3).</li>
+    <li><span class="state-green">Green</span> — Payment errors are logged with context and surfaced to the user, not swallowed (control 8.5).</li>
+    <li><span class="state-nv">Not Verified</span> — Whether production Stripe webhook secrets are stored separately from example config could not be confirmed from the repo alone (control 6.2).</li>
+  </ul>
+</div>
+
+<div class="feature" id="f-accounts">
+  <h3>Account management</h3>
+  <div class="state-strip">🔴 1 &middot; 🟢 2</div>
+  <ul class="findings">
+    <li><span class="state-red">Red</span> — Deleted accounts remain visible via <code>src/admin/search.ts:88</code>, which queries the users table with no <code>deletedAt IS NULL</code> filter; the product's privacy policy promises deletion.
+      <details class="crit"><summary>control 14.2</summary><div class="crit-body"><strong>Green requires:</strong> hard delete, or soft-delete with a working purge job.<br><strong>This finding:</strong> "deleted" user PII remains queryable through the application after a user-facing deletion action.</div></details>
+      <a class="gaplink" href="gap-register.html#g2">G2</a></li>
+    <li><span class="state-green">Green</span> — Account deletion is initiated through a documented, reviewed endpoint, not an undocumented manual process (control 7.1).</li>
+    <li><span class="state-green">Green</span> — No real-looking personal data found in seed/fixture files; all fixtures use clearly synthetic emails (control 6.3).</li>
+  </ul>
+</div>
+
+<div class="feature" id="f-auth">
+  <h3>Authentication</h3>
+  <div class="state-strip">🟠 1 &middot; 🟢 3</div>
+  <ul class="findings">
+    <li><span class="state-amber">Amber</span> — Login and password-reset flows are covered only by unit tests that mock the database layer; no integration test exercises the real flow end to end.
+      <details class="crit"><summary>control 5.4</summary><div class="crit-body"><strong>Green requires:</strong> at least one critical flow has integration/e2e-level coverage.<br><strong>This finding:</strong> critical flows have unit coverage only, no integration/e2e layer exists.</div></details>
+      <a class="gaplink" href="gap-register.html#g4">G4</a></li>
+    <li><span class="state-green">Green</span> — Session tokens expire after 24 hours and are verified with a real signature check, not a stub (control 8.1).</li>
+    <li><span class="state-green">Green</span> — Password reset tokens are single-use and expire after 15 minutes.</li>
+    <li><span class="state-green">Green</span> — TypeScript strict mode is enabled and applied to the auth module (control 4.7).</li>
+  </ul>
+</div>
+
+<div class="feature" id="f-notes">
+  <h3>Notes management</h3>
+  <div class="state-strip">🔴 1 &middot; 🟠 2 &middot; 🟢 2</div>
+  <ul class="findings">
+    <li><span class="state-red">Red</span> — <code>/api/notes</code> list endpoint calls <code>Note.findAll()</code> with no pagination, limit, or bound (<code>src/routes/notes.ts:21</code>).
+      <details class="crit"><summary>control 11.1</summary><div class="crit-body"><strong>Green requires:</strong> user-facing list endpoints are paginated or otherwise bounded.<br><strong>This finding:</strong> a user-facing endpoint returns an unbounded result set from a table that can grow without limit.</div></details>
+      <a class="gaplink" href="gap-register.html#g5">G5</a></li>
+    <li><span class="state-amber">Amber</span> — Note tags are fetched in a per-note loop (<code>src/routes/notes.ts:35-41</code>) instead of a batched query.
+      <a class="gaplink" href="gap-register.html#g6">G6</a></li>
+    <li><span class="state-amber">Amber</span> — No caching on the notes-search endpoint despite a config comment noting the timeout was raised from 5s to 15s to accommodate slow searches.
+      <a class="gaplink" href="gap-register.html#g8">G8</a></li>
+    <li><span class="state-green">Green</span> — Note content is escaped via <code>textContent</code> on render; no <code>dangerouslySetInnerHTML</code> usage found (control 8.4).</li>
+    <li><span class="state-green">Green</span> — Note create/update endpoints validate input through a shared Zod schema (control 8.3).</li>
+  </ul>
+</div>
+
+<div class="feature" id="f-infra">
+  <h3>Deployment &amp; infra</h3>
+  <div class="state-strip">🔴 2 &middot; 🟠 1 &middot; 🟢 4 &middot; ⚪ 2</div>
+  <ul class="findings">
+    <li><span class="state-red">Red</span> — Default branch has PR-review protection enabled but no required status checks; CI exists (<code>.github/workflows/test.yml</code>) but is not required to pass before merge.
+      <details class="crit"><summary>control 3.3</summary><div class="crit-body"><strong>Green requires:</strong> CI is required and covers build/test at minimum.<br><strong>This finding:</strong> CI exists but is not required.</div></details>
+      <a class="gaplink" href="gap-register.html#g3">G3</a></li>
+    <li><span class="state-red">Red</span> — Project owner confirmed at intake that Sentry is installed but no alert rules are configured; errors are captured but no one is paged.
+      <a class="gaplink" href="gap-register.html#g7">G7</a></li>
+    <li><span class="state-amber">Amber</span> — No OpenAPI spec or published client for the <code>/api/v1/</code> surface consumed by the project's own mobile client.
+      <a class="gaplink" href="gap-register.html#g9">G9</a></li>
+    <li><span class="state-green">Green</span> — Deployment is fully scripted via GitHub Actions to a managed platform; no manual SSH steps found (control 7.1).</li>
+    <li><span class="state-green">Green</span> — Database migrations are version-controlled and go through the same PR review as application code (control 8.2).</li>
+    <li><span class="state-green">Green</span> — Lockfile-only dependency scan (<code>npm audit --package-lock-only</code>) found no high/critical vulnerabilities (control 6.1).</li>
+    <li><span class="state-green">Green</span> — README covers local setup end to end; a newcomer could get the project running from it alone (control 10.1).</li>
+    <li><span class="state-nv">Not Verified</span> — Backup existence and restore testing could not be confirmed from the repo; flagged as a question (control 9.2).</li>
+    <li><span class="state-nv">Not Verified</span> — Rollback path could not be confirmed to actually work from repo evidence alone (control 7.2).</li>
+  </ul>
+</div>
+
+<p>Controls not reached this pass: 2.2, 10.2 — deprioritized in favor of
+higher-risk areas within the audit's time budget; recommend covering on the
+next re-audit.</p>
+
+<h2 id="questions">Questions requiring human confirmation</h2>
+<ul class="questions">
+  <li>Is there a tested backup/restore process for the primary database? — <em>Deployment &amp; infra</em></li>
+  <li>Has the rollback path (redeploying a previous release) actually been exercised, not just theoretically available? — <em>Deployment &amp; infra</em></li>
+  <li>Are Stripe webhook secrets stored separately from local/example config in the production environment? — <em>Payments</em></li>
+  <li>Does anything outside the project's own mobile client consume the public API? — <em>Deployment &amp; infra</em></li>
+</ul>
+
+<h2 id="boundary">Inspection boundary</h2>
+<p>What was checked: full local repository, git history, tracked dependency
+lockfiles, GitHub branch protection and PR review history via <code>gh</code>.</p>
+<p>What was not accessible: production infrastructure, hosting-platform
+dashboards, backup/restore evidence, alerting dashboards beyond what the
+project owner confirmed verbally.</p>
+<p>GitHub read-only checks: ran &middot; Dependency scan: ran
+(<code>npm audit --package-lock-only</code>)</p>
+<p>Accessibility and internationalization were not assessed; they require
+browser-based testing outside this audit's static-analysis scope.</p>
+
+<p class="backtotop"><a href="#top">↑ Back to top</a> &middot; <a href="index.html">Overview</a> &middot; <a href="gap-register.html">Gap register</a></p>

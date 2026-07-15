@@ -36,9 +36,9 @@
 
 <nav class="topnav">
   <a class="current" href="index.html">Overview</a>
-  <a href="#">Audit Report</a>
-  <a href="#">Gap Register</a>
-  <a href="#">Criteria</a>
+  <a href="audit-report.html">Audit Report</a>
+  <a href="gap-register.html">Gap Register</a>
+  <a href="criteria.html">Criteria</a>
 </nav>
 
 <h1>Engineering Audit — Acme Notes</h1>
@@ -49,16 +49,16 @@ findings, included to show the skill's output format — it is not a real
 audit of any project.</div>
 
 <div class="chips">
-  <a class="chip blocker" href="#">1 immediate blocker</a>
-  <a class="chip red" href="#">3 red</a>
-  <a class="chip amber" href="#">6 amber</a>
-  <a class="chip green" href="#">27 green</a>
-  <a class="chip nv" href="#">10 not verified</a>
+  <a class="chip blocker" href="audit-report.html#blockers">1 immediate blocker</a>
+  <a class="chip red" href="gap-register.html">4 red</a>
+  <a class="chip amber" href="gap-register.html">4 amber</a>
+  <a class="chip green" href="audit-report.html#findings">19 green</a>
+  <a class="chip nv" href="audit-report.html#questions">4 not verified</a>
 </div>
 
 <h2>Do these first</h2>
 <div class="blockers">
-  <a href="#">Rotate a live-looking Stripe secret key committed in <code>config/settings.py:42</code></a>
+  <a href="audit-report.html#f-payments">Rotate a live-looking Stripe secret key committed in <code>config/settings.py:42</code></a>
 </div>
 
 <h2>30-day plan</h2>
@@ -71,15 +71,15 @@ audit of any project.</div>
 </ul>
 
 <div class="cards">
-  <a class="card" href="#">
+  <a class="card" href="audit-report.html">
     <h3>Audit Report →</h3>
-    <p>Executive summary, findings by feature, questions, inspection boundary. (Not included in this sample — this dashboard page illustrates the report format.)</p>
+    <p>Executive summary, findings by feature, questions, inspection boundary.</p>
   </a>
-  <a class="card" href="#">
+  <a class="card" href="gap-register.html">
     <h3>Gap Register →</h3>
     <p>Every Amber/Red finding as an actionable row with owner and target date.</p>
   </a>
-  <a class="card" href="#">
+  <a class="card" href="criteria.html">
     <h3>Criteria →</h3>
     <p>What each finding was measured against, as of this audit's date.</p>
   </a>

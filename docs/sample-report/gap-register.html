@@ -1,0 +1,74 @@
+<!-- SAMPLE / FICTIONAL DATA — illustrates report layout only. -->
+<title>Gap Register — Acme Notes (sample)</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 1150px; margin: 0 auto; padding: 0 1.5rem 3rem; line-height: 1.5; }
+  nav.topnav { position: sticky; top: 0; display: flex; gap: 0.4rem; padding: 0.6rem 0; margin: 0 -1.5rem 1.2rem; padding-left: 1.5rem; backdrop-filter: blur(8px); background: rgba(128,128,128,0.08); border-bottom: 1px solid rgba(128,128,128,0.25); z-index: 10; }
+  nav.topnav a { text-decoration: none; color: inherit; padding: 0.25rem 0.8rem; border-radius: 999px; font-size: 0.9rem; }
+  nav.topnav a.current { background: rgba(128,128,128,0.25); font-weight: 600; }
+  nav.topnav a:hover:not(.current) { background: rgba(128,128,128,0.15); }
+  h1 { font-size: 1.6rem; margin: 1rem 0 0.2rem; }
+  .meta { opacity: 0.7; font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .banner { border: 1px dashed rgba(128,128,128,0.5); border-radius: 8px; padding: 0.7rem 1rem; margin-bottom: 1.4rem; font-size: 0.88rem; opacity: 0.85; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.88rem; }
+  th, td { border: 1px solid rgba(128,128,128,0.35); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+  th { background: rgba(128,128,128,0.12); }
+  tr[id] { scroll-margin-top: 4rem; }
+  tr:target { outline: 2px solid #d97706; }
+  .state-amber { color: #d97706; font-weight: 600; }
+  .state-red { color: #dc2626; font-weight: 600; }
+  .blocker-row { background: rgba(220,38,38,0.06); }
+  .priority-key, .note { font-size: 0.85rem; opacity: 0.8; margin-top: 1.5rem; }
+  .priority-key ol { padding-left: 1.2rem; }
+  code { background: rgba(128,128,128,0.15); padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.88em; }
+  td a { color: inherit; }
+</style>
+
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a href="audit-report.html">Audit Report</a>
+  <a class="current" href="gap-register.html">Gap Register</a>
+  <a href="criteria.html">Criteria</a>
+</nav>
+
+<h1>Gap Register — Acme Notes</h1>
+<div class="meta">Date: 2026-07-15</div>
+
+<div class="banner">Sample data — "Acme Notes" and every row below are
+fictional, included only to show the report format.</div>
+
+<p>Every Amber or Red control from the audit report is one row. Not Verified
+items live in the report's <a href="audit-report.html#questions">questions
+section</a> unless the project owner later confirms them as actual gaps.</p>
+
+<table>
+  <thead>
+    <tr><th>ID</th><th>Feature</th><th>Control</th><th>Gap</th><th>State</th><th>Priority*</th><th>Evidence</th><th>Recommended action</th><th>Owner</th><th>Target date</th></tr>
+  </thead>
+  <tbody>
+    <tr id="g1" class="blocker-row"><td>G1</td><td><a href="audit-report.html#f-payments">Payments</a></td><td><a href="criteria.html#c3-4">3.4</a></td><td>Live-looking Stripe secret key committed to tracked source</td><td class="state-red">Red</td><td>1</td><td><code>config/settings.py:42</code>, prefix matches <code>sk_live_</code></td><td>Rotate the key immediately; add secret scanning to CI</td><td></td><td></td></tr>
+    <tr id="g2"><td>G2</td><td><a href="audit-report.html#f-accounts">Account management</a></td><td><a href="criteria.html#c14-2">14.2</a></td><td>Soft-deleted accounts remain queryable via admin search</td><td class="state-red">Red</td><td>1</td><td><code>src/admin/search.ts:88</code> — query has no <code>deletedAt IS NULL</code> filter</td><td>Add the filter; add a purge job for the underlying rows</td><td></td><td></td></tr>
+    <tr id="g3"><td>G3</td><td><a href="audit-report.html#f-infra">Deployment &amp; infra</a></td><td><a href="criteria.html#c3-3">3.3</a></td><td>CI runs but is not a required check on the default branch</td><td class="state-red">Red</td><td>4</td><td>Branch protection API: no required status checks configured</td><td>Mark the existing test workflow as required</td><td></td><td></td></tr>
+    <tr id="g4"><td>G4</td><td><a href="audit-report.html#f-auth">Authentication</a></td><td><a href="criteria.html#c5-4">5.4</a></td><td>Login and password-reset flows have unit tests only, no integration coverage</td><td class="state-amber">Amber</td><td>5</td><td><code>tests/auth/</code> — all specs mock the database layer</td><td>Add one integration test exercising the real login flow end to end</td><td></td><td></td></tr>
+    <tr id="g5"><td>G5</td><td><a href="audit-report.html#f-notes">Notes management</a></td><td><a href="criteria.html#c11-1">11.1</a></td><td><code>/api/notes</code> list endpoint returns unbounded results</td><td class="state-red">Red</td><td>5</td><td><code>src/routes/notes.ts:21</code> — <code>Note.findAll()</code> with no pagination</td><td>Add cursor or offset pagination with a sane default page size</td><td></td><td></td></tr>
+    <tr id="g6"><td>G6</td><td><a href="audit-report.html#f-notes">Notes management</a></td><td><a href="criteria.html#c11-2">11.2</a></td><td>Note tags fetched in a per-item loop instead of a batch query</td><td class="state-amber">Amber</td><td>5</td><td><code>src/routes/notes.ts:35-41</code></td><td>Batch-load tags with a single join or <code>WHERE IN</code> query</td><td></td><td></td></tr>
+    <tr id="g7"><td>G7</td><td><a href="audit-report.html#f-infra">Deployment &amp; infra</a></td><td><a href="criteria.html#c9-3">9.3</a></td><td>Sentry installed but project owner confirmed no alert rules are configured</td><td class="state-red">Red</td><td>6</td><td>Owner confirmation, 2026-07-14</td><td>Configure at least an error-rate alert routed to on-call</td><td></td><td></td></tr>
+    <tr id="g8"><td>G8</td><td><a href="audit-report.html#f-notes">Notes management</a></td><td><a href="criteria.html#c11-4">11.4</a></td><td>No caching on the notes-search endpoint despite a raised timeout in config</td><td class="state-amber">Amber</td><td>7</td><td><code>config/timeouts.yml</code> — search timeout raised from 5s to 15s, no cache layer present</td><td>Add a cache layer or precompute the search index</td><td></td><td></td></tr>
+    <tr id="g9"><td>G9</td><td><a href="audit-report.html#f-infra">Deployment &amp; infra</a></td><td><a href="criteria.html#c12-1">12.1</a></td><td>Public API has no OpenAPI spec or published client</td><td class="state-amber">Amber</td><td>7</td><td>No spec file found; routes documented only in code</td><td>Publish an OpenAPI spec for the <code>/api/v1/</code> surface</td><td></td><td></td></tr>
+  </tbody>
+</table>
+
+<div class="priority-key">
+  *Risk priority (lower = more urgent):
+  <ol>
+    <li>Security, privacy, secrets, sensitive-data exposure</li>
+    <li>Missing/unreliable backup, recovery, or rollback</li>
+    <li>Uncontrolled production access</li>
+    <li>Unreviewed changes or missing CI safeguards</li>
+    <li>Missing tests or performance safeguards around critical business behavior</li>
+    <li>Unclear ownership and operational responsibility</li>
+    <li>Documentation and maintainability</li>
+  </ol>
+  Owner and target date are left blank for the project team to fill in —
+  this skill does not assign ownership on their behalf.
+</div>
