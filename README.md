@@ -83,6 +83,43 @@ assets/gap-register-template.html # gap register table
 assets/criteria-template.html     # per-audit snapshot of all control thresholds
 ```
 
+## Roadmap
+
+**Now — prerequisite to everything below:**
+- Run a full pilot audit (and ideally a re-audit) against a real
+  repository. The 47-control set has been reviewed and stress-tested on
+  paper but not yet exercised end to end; pilot findings will likely
+  reorder the items below before any of them are worth committing to.
+
+**Next (small, concrete):**
+- `--path` flag on the CLI, to install into a custom skills directory
+  instead of assuming `~/.claude/skills/`.
+- Stamp each generated report with the control-set version it ran
+  against (the npm package version doubles as this identifier for free)
+  — strengthens the re-audit "New (criteria expanded)" comparability
+  story already built into the skill.
+
+**Later (needs more design first):**
+- Optional `.auditrc` to persist a repo's risk-profile answers across
+  repeat audits, so the same calibration question isn't re-asked every
+  re-audit run.
+- Broaden the handful of language-specific evidence patterns (currently
+  JS/Python-leaning — controls like 8.4 injection surface and 11.1–11.2
+  query patterns) to cover Go, Rust, and Java idioms. Most controls are
+  already language-neutral; this only affects the code-pattern-grep ones.
+
+**Research questions, not yet roadmapped:**
+- Accessibility/i18n (the deliberately-unused domain 13 slot) — blocked
+  on wiring in real browser-based tooling (e.g. axe-core), since static
+  analysis alone can't verify this confidently.
+- Cross-repo trend/rollup views for teams auditing multiple projects —
+  in tension with the skill's "one audit, one report, no cross-project
+  references" confidentiality rule, so needs a data-location design
+  decision before it's buildable at all.
+
+Have a request or found a gap? Open an issue on the
+[GitHub repo](https://github.com/liveedevteam/audit-software-project/issues).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
