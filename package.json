@@ -1,0 +1,31 @@
+{
+  "name": "audit-software-project",
+  "version": "1.0.0",
+  "description": "Installer for the audit-software-project Claude Code skill — an evidence-based engineering audit of a local repository.",
+  "bin": {
+    "audit-software-project": "bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "SKILL.md",
+    "references",
+    "assets"
+  ],
+  "engines": {
+    "node": ">=16.7.0"
+  },
+  "keywords": [
+    "claude-code",
+    "claude-skill",
+    "code-audit",
+    "engineering-standards",
+    "security-audit"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liveedevteam/audit-software-project.git"
+  },
+  "homepage": "https://github.com/liveedevteam/audit-software-project#readme",
+  "author": "liveedevteam"
+}

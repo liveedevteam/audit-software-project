@@ -41,14 +41,21 @@ real audit reports contain confidential findings and are never published)
 
 ## Install
 
-Copy this directory into your Claude Code skills folder, e.g.:
+```bash
+npx audit-software-project
+```
+
+This copies `SKILL.md`, `references/`, and `assets/` into
+`~/.claude/skills/audit-software-project/`. Safe to re-run any time to
+update to the latest published version — it overwrites the existing
+install. Claude Code picks up the skill on the next session.
+
+Alternatively, clone the repo directly:
 
 ```bash
 git clone https://github.com/liveedevteam/audit-software-project.git \
   ~/.claude/skills/audit-software-project
 ```
-
-Claude Code will pick it up automatically on the next session.
 
 ## Use
 
