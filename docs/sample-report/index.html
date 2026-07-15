@@ -1,0 +1,103 @@
+<!-- SAMPLE / FICTIONAL DATA — illustrates report layout only. "Acme Notes"
+     is not a real project; every finding below is invented for demonstration. -->
+<title>Audit — Acme Notes (sample) — 2026-07-15</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 760px; margin: 0 auto; padding: 0 1.5rem 3rem; line-height: 1.5; }
+  nav.topnav { position: sticky; top: 0; display: flex; gap: 0.4rem; padding: 0.6rem 0; margin: 0 -1.5rem 1.6rem; padding-left: 1.5rem; backdrop-filter: blur(8px); background: rgba(128,128,128,0.08); border-bottom: 1px solid rgba(128,128,128,0.25); z-index: 10; }
+  nav.topnav a { text-decoration: none; color: inherit; padding: 0.25rem 0.8rem; border-radius: 999px; font-size: 0.9rem; }
+  nav.topnav a.current { background: rgba(128,128,128,0.25); font-weight: 600; }
+  nav.topnav a:hover:not(.current) { background: rgba(128,128,128,0.15); }
+  h1 { font-size: 1.5rem; margin: 1.2rem 0 0.2rem; }
+  .meta { opacity: 0.7; font-size: 0.9rem; margin-bottom: 1.2rem; }
+  .banner { border: 1px dashed rgba(128,128,128,0.5); border-radius: 8px; padding: 0.7rem 1rem; margin-bottom: 1.4rem; font-size: 0.88rem; opacity: 0.85; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 1.6rem; }
+  .chip { text-decoration: none; color: inherit; border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.88rem; font-weight: 600; border: 1px solid transparent; }
+  .chip.blocker { background: rgba(220,38,38,0.15); border-color: rgba(220,38,38,0.4); }
+  .chip.red { background: rgba(220,38,38,0.08); border-color: rgba(220,38,38,0.3); }
+  .chip.amber { background: rgba(217,119,6,0.1); border-color: rgba(217,119,6,0.3); }
+  .chip.green { background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.3); }
+  .chip.nv { background: rgba(107,114,128,0.12); border-color: rgba(107,114,128,0.3); }
+  h2 { font-size: 1.1rem; margin-top: 1.8rem; }
+  .blockers { border-left: 4px solid #dc2626; padding: 0.8rem 1rem; background: rgba(220,38,38,0.08); border-radius: 0 8px 8px 0; }
+  .blockers a { color: inherit; }
+  ul.todo { list-style: none; padding: 0; margin: 0.8rem 0; }
+  ul.todo li { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.7rem 0.9rem; border: 1px solid rgba(128,128,128,0.3); border-radius: 8px; margin-bottom: 0.6rem; }
+  ul.todo input[type=checkbox] { margin-top: 0.3rem; width: 1.05rem; height: 1.05rem; accent-color: #16a34a; cursor: pointer; flex-shrink: 0; }
+  ul.todo li.done { opacity: 0.55; }
+  ul.todo li.done .txt { text-decoration: line-through; }
+  .cards { margin-top: 1.6rem; }
+  .card { display: block; border: 1px solid rgba(128,128,128,0.35); border-radius: 8px; padding: 0.9rem 1.1rem; margin-bottom: 0.8rem; text-decoration: none; color: inherit; }
+  .card:hover { background: rgba(128,128,128,0.08); }
+  .card h3 { margin: 0 0 0.25rem; font-size: 1rem; }
+  .card p { margin: 0; opacity: 0.75; font-size: 0.88rem; }
+  code { background: rgba(128,128,128,0.15); padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.88em; }
+</style>
+
+<nav class="topnav">
+  <a class="current" href="index.html">Overview</a>
+  <a href="#">Audit Report</a>
+  <a href="#">Gap Register</a>
+  <a href="#">Criteria</a>
+</nav>
+
+<h1>Engineering Audit — Acme Notes</h1>
+<div class="meta">2026-07-15 &middot; github.com/example/acme-notes (fictional)</div>
+
+<div class="banner">This is a <strong>sample report</strong> with invented
+findings, included to show the skill's output format — it is not a real
+audit of any project.</div>
+
+<div class="chips">
+  <a class="chip blocker" href="#">1 immediate blocker</a>
+  <a class="chip red" href="#">3 red</a>
+  <a class="chip amber" href="#">6 amber</a>
+  <a class="chip green" href="#">27 green</a>
+  <a class="chip nv" href="#">10 not verified</a>
+</div>
+
+<h2>Do these first</h2>
+<div class="blockers">
+  <a href="#">Rotate a live-looking Stripe secret key committed in <code>config/settings.py:42</code></a>
+</div>
+
+<h2>30-day plan</h2>
+<ul class="todo" id="todo">
+  <li><input type="checkbox" data-k="a1"><span class="txt"><strong>Payments:</strong> Rotate committed Stripe secret key and add secret scanning to CI — G1</span></li>
+  <li><input type="checkbox" data-k="a2"><span class="txt"><strong>Account management:</strong> Fix soft-delete so purged accounts stop appearing in admin search — G2</span></li>
+  <li><input type="checkbox" data-k="a3"><span class="txt"><strong>Deployment &amp; infra:</strong> Require CI to pass before merge on the default branch — G3</span></li>
+  <li><input type="checkbox" data-k="a4"><span class="txt"><strong>Authentication:</strong> Add integration test coverage for the login/reset-password flow — G4</span></li>
+  <li><input type="checkbox" data-k="a5"><span class="txt"><strong>Notes management:</strong> Add pagination to the unbounded <code>/api/notes</code> list endpoint — G5</span></li>
+</ul>
+
+<div class="cards">
+  <a class="card" href="#">
+    <h3>Audit Report →</h3>
+    <p>Executive summary, findings by feature, questions, inspection boundary. (Not included in this sample — this dashboard page illustrates the report format.)</p>
+  </a>
+  <a class="card" href="#">
+    <h3>Gap Register →</h3>
+    <p>Every Amber/Red finding as an actionable row with owner and target date.</p>
+  </a>
+  <a class="card" href="#">
+    <h3>Criteria →</h3>
+    <p>What each finding was measured against, as of this audit's date.</p>
+  </a>
+</div>
+
+<script>
+(function () {
+  var KEY = "audit-sample-acme-notes-2026-07-15";
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+  document.querySelectorAll("#todo input[type=checkbox]").forEach(function (cb) {
+    var k = cb.getAttribute("data-k");
+    if (saved[k]) { cb.checked = true; cb.closest("li").classList.add("done"); }
+    cb.addEventListener("change", function () {
+      saved[k] = cb.checked;
+      cb.closest("li").classList.toggle("done", cb.checked);
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+    });
+  });
+})();
+</script>
