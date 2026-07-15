@@ -1,0 +1,140 @@
+<!-- Fill in {{placeholders}}. Self-contained: no external CSS/JS/fonts/images.
+     Structure is feature-first. Section order is deliberate: actions before
+     detail. Every feature section gets an id="f-<slug>" anchor; blockers get
+     id="blockers"; questions id="questions"; plan id="plan". Red/Amber
+     findings that have a gap-register row link to it (gap-register.html#g<n>).
+     On a RE-AUDIT, insert a "Changes since last audit" section directly after
+     the executive summary, listing each previous gap as Fixed / Unchanged /
+     Regressed with fresh evidence. -->
+<title>Engineering Audit Report — {{project_name}}</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 960px; margin: 0 auto; padding: 0 1.5rem 3rem; line-height: 1.5; }
+  nav.topnav { position: sticky; top: 0; display: flex; gap: 0.4rem; padding: 0.6rem 0; margin: 0 -1.5rem 1.2rem; padding-left: 1.5rem; backdrop-filter: blur(8px); background: rgba(128,128,128,0.08); border-bottom: 1px solid rgba(128,128,128,0.25); z-index: 10; }
+  nav.topnav a { text-decoration: none; color: inherit; padding: 0.25rem 0.8rem; border-radius: 999px; font-size: 0.9rem; }
+  nav.topnav a.current { background: rgba(128,128,128,0.25); font-weight: 600; }
+  nav.topnav a:hover:not(.current) { background: rgba(128,128,128,0.15); }
+  .toc { font-size: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; padding: 0.5rem 0.9rem; border: 1px solid rgba(128,128,128,0.25); border-radius: 8px; margin: 0.8rem 0 1.4rem; }
+  .toc a { color: inherit; text-decoration: none; opacity: 0.85; }
+  .toc a:hover { text-decoration: underline; }
+  h1 { font-size: 1.6rem; margin: 1rem 0 0.2rem; }
+  h2 { font-size: 1.2rem; margin-top: 2.2rem; border-bottom: 1px solid currentColor; padding-bottom: 0.3rem; opacity: 0.9; scroll-margin-top: 4rem; }
+  h3 { font-size: 1rem; margin-top: 1.3rem; scroll-margin-top: 4rem; }
+  .meta { opacity: 0.7; font-size: 0.9rem; margin-bottom: 1.2rem; }
+  .banner { border-left: 4px solid #d97706; padding: 0.8rem 1rem; background: rgba(217,119,6,0.08); margin: 1rem 0; }
+  .blockers-none { border-left: 4px solid #16a34a; padding: 0.8rem 1rem; background: rgba(22,163,74,0.08); }
+  .blockers { border-left: 4px solid #dc2626; padding: 0.8rem 1rem; background: rgba(220,38,38,0.08); }
+  .feature { border: 1px solid rgba(128,128,128,0.3); border-radius: 8px; padding: 1rem 1.2rem; margin: 1rem 0; }
+  code { background: rgba(128,128,128,0.15); padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.88em; }
+  .state-green { color: #16a34a; font-weight: 600; }
+  .state-amber { color: #d97706; font-weight: 600; }
+  .state-red { color: #dc2626; font-weight: 600; }
+  .state-nv, .state-na { color: #6b7280; font-weight: 600; }
+  .gaplink { font-size: 0.8rem; text-decoration: none; border: 1px solid rgba(128,128,128,0.4); border-radius: 999px; padding: 0.05rem 0.5rem; color: inherit; opacity: 0.8; }
+  .gaplink:hover { background: rgba(128,128,128,0.15); }
+  ol.plan li { margin-bottom: 0.6rem; }
+  ul.questions li, ul.findings li { margin-bottom: 0.5rem; }
+  .backtotop { font-size: 0.8rem; opacity: 0.7; }
+  .contest-note { font-size: 0.85rem; opacity: 0.85; border-left: 3px solid rgba(128,128,128,0.5); padding: 0.5rem 0.9rem; margin: 0.8rem 0 1.2rem; }
+  details.crit { display: inline; }
+  details.crit summary { display: inline; cursor: pointer; list-style: none; font-size: 0.8rem; border: 1px solid rgba(128,128,128,0.4); border-radius: 999px; padding: 0.05rem 0.5rem; opacity: 0.75; }
+  details.crit summary::-webkit-details-marker { display: none; }
+  details.crit summary:hover { background: rgba(128,128,128,0.15); opacity: 1; }
+  details.crit[open] summary { opacity: 1; }
+  .crit-body { display: block; margin: 0.4rem 0 0.6rem 1rem; padding: 0.5rem 0.8rem; border-left: 2px solid rgba(128,128,128,0.4); font-size: 0.87rem; opacity: 0.9; }
+  .state-strip { font-size: 0.85rem; opacity: 0.85; margin-bottom: 0.6rem; }
+</style>
+
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a class="current" href="audit-report.html">Audit Report</a>
+  <a href="gap-register.html">Gap Register</a>
+  <a href="criteria.html">Criteria</a>
+</nav>
+
+<h1 id="top">Engineering Audit Report — {{project_name}}</h1>
+<div class="meta">
+  Date: {{date}} &middot; Auditor: {{auditor}} &middot; Repository: {{repo_url_or_path}}<br>
+  Scope: Local repository inspection{{, plus read-only GitHub checks / dependency scan if run}}
+  {{<br>Amended <date> after owner confirmation — if applicable}}
+</div>
+<p class="contest-note">States are assigned against the criteria in
+<a href="criteria.html">criteria.html</a> (click any control tag below to see
+the threshold inline). Findings marked Not Verified or Red can be revised if
+you hold evidence this audit couldn't access — see
+<a href="#questions">Questions requiring human confirmation</a>.</p>
+
+<div class="toc">
+  <a href="#summary">Summary</a>
+  <a href="#blockers">Blockers</a>
+  <a href="#plan">30-day plan</a>
+  <a href="#f-{{feature-slug}}">{{Feature name}}</a>
+  <!-- one toc link per feature section -->
+  <a href="#questions">Questions</a>
+  <a href="#boundary">Boundary</a>
+  <a href="criteria.html">Criteria ↗</a>
+</div>
+
+<h2 id="summary">Executive summary</h2>
+<p>{{One page max, plain language, no aggregate score. Lead with the feature
+area that has the most severe findings.}}</p>
+
+<!-- RE-AUDIT ONLY:
+<h2 id="changes">Changes since last audit ({{previous date}})</h2>
+<ul><li>G1 — <strong>Fixed</strong>: {{fresh evidence}}</li>...</ul>
+-->
+
+<h2 id="blockers">Immediate blockers</h2>
+<div class="blockers-none">{{"None identified." — or swap class to "blockers"
+and list urgent items, each tagged with its feature and linked gap row.}}</div>
+
+<h2 id="plan">30-day improvement plan</h2>
+<ol class="plan">
+  <li><strong>{{Feature}}:</strong> {{action}} <a class="gaplink" href="gap-register.html#g{{n}}">G{{n}}</a></li>
+  <!-- max 5, ordered by severity across features. Same items and order as
+       the index-page checklist. -->
+</ol>
+
+<h2 id="risk">Risk context</h2>
+<p>{{From the scope confirmation, or labeled an inferred assumption if it was
+skipped. No references to any other audited repository.}}</p>
+
+<h2 id="findings">Findings by feature</h2>
+<p><em>States: <span class="state-green">Green</span> = adequate &amp; evidenced.
+<span class="state-amber">Amber</span> = partial/inconsistent/moderate risk.
+<span class="state-red">Red</span> = missing/significant risk.
+<span class="state-nv">Not Verified</span> = evidence unavailable, not a failure.
+<span class="state-na">Not Applicable</span> = doesn't apply, reason stated.
+Control IDs in parentheses trace to <code>audit-controls.md</code>; G-tags link
+to the gap register.</em></p>
+
+<div class="feature" id="f-{{feature-slug}}">
+  <h3>{{Feature name}}</h3>
+  <div class="state-strip">{{Worst-first, omit zero counts, no totals/percentages, e.g.:}} 🔴 2 &middot; 🟠 1 &middot; 🟢 3 &middot; ⚪ 1</div>
+  <ul class="findings">
+    <li><span class="state-red">Red</span> — {{finding with evidence citation}}
+      <details class="crit"><summary>control {{n.n}}</summary><div class="crit-body"><strong>Green requires:</strong> {{copy Green threshold from audit-controls.md}}<br><strong>This finding:</strong> {{copy Red threshold or the specific gap}}</div></details>
+      <a class="gaplink" href="gap-register.html#g{{n}}">G{{n}}</a></li>
+    <li><span class="state-green">Green</span> — {{finding}}
+      <details class="crit"><summary>control {{n.n}}</summary><div class="crit-body"><strong>Green requires:</strong> {{threshold}} — met, see evidence above.</div></details></li>
+  </ul>
+</div>
+<!-- repeat per feature, 4-7 total, always including "Deployment & infra".
+     The <details> toggle is collapsed by default (no "open" attribute) —
+     it must not expand the page length until clicked. -->
+
+<p>{{If any controls were not reached this pass, list them here in one line:
+"Controls not reached this pass: 4.3, 5.3 — {{reason}}." Every control ID in
+audit-controls.md must appear somewhere in this report.}}</p>
+
+<h2 id="questions">Questions requiring human confirmation</h2>
+<ul class="questions">
+  <li>{{Question}} — <em>{{feature area}}</em></li>
+</ul>
+
+<h2 id="boundary">Inspection boundary</h2>
+<p>What was checked: {{summary}}</p>
+<p>What was not accessible: {{list}}</p>
+<p>GitHub read-only checks: {{ran / declined / unavailable}} &middot; Dependency scan: {{ran / not scannable (reason)}}</p>
+
+<p class="backtotop"><a href="#top">↑ Back to top</a> &middot; <a href="index.html">Overview</a> &middot; <a href="gap-register.html">Gap register</a></p>

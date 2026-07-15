@@ -1,0 +1,54 @@
+<!-- Fill in {{placeholders}}. Self-contained: no external CSS/JS/fonts/images.
+     Snapshot of every control's Green/Red thresholds AS THEY STOOD when this
+     audit ran, copied from references/audit-controls.md at generation time.
+     This page is generated fresh per audit — do not maintain it as a shared
+     global file across audits; each audit gets its own dated snapshot so old
+     reports keep the criteria they were actually judged against. -->
+<title>Criteria — {{project_name}} — {{date}}</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 860px; margin: 0 auto; padding: 0 1.5rem 3rem; line-height: 1.5; }
+  nav.topnav { position: sticky; top: 0; display: flex; gap: 0.4rem; padding: 0.6rem 0; margin: 0 -1.5rem 1.2rem; padding-left: 1.5rem; backdrop-filter: blur(8px); background: rgba(128,128,128,0.08); border-bottom: 1px solid rgba(128,128,128,0.25); z-index: 10; }
+  nav.topnav a { text-decoration: none; color: inherit; padding: 0.25rem 0.8rem; border-radius: 999px; font-size: 0.9rem; }
+  nav.topnav a.current { background: rgba(128,128,128,0.25); font-weight: 600; }
+  nav.topnav a:hover:not(.current) { background: rgba(128,128,128,0.15); }
+  h1 { font-size: 1.6rem; margin: 1rem 0 0.2rem; }
+  h2 { font-size: 1.1rem; margin-top: 2rem; border-bottom: 1px solid currentColor; padding-bottom: 0.3rem; opacity: 0.9; }
+  .meta { opacity: 0.7; font-size: 0.9rem; margin-bottom: 1.2rem; }
+  .snapshot-note { border-left: 4px solid #6b7280; padding: 0.7rem 1rem; background: rgba(107,114,128,0.08); font-size: 0.88rem; margin-bottom: 1.5rem; }
+  table { border-collapse: collapse; width: 100%; margin: 0.8rem 0; font-size: 0.87rem; }
+  th, td { border: 1px solid rgba(128,128,128,0.35); padding: 0.5rem 0.6rem; text-align: left; vertical-align: top; }
+  th { background: rgba(128,128,128,0.12); }
+  tr[id] { scroll-margin-top: 4rem; }
+  code { background: rgba(128,128,128,0.15); padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.88em; }
+</style>
+
+<nav class="topnav">
+  <a href="index.html">Overview</a>
+  <a href="audit-report.html">Audit Report</a>
+  <a href="gap-register.html">Gap Register</a>
+  <a class="current" href="criteria.html">Criteria</a>
+</nav>
+
+<h1>Audit Criteria — {{project_name}}</h1>
+<div class="meta">Snapshot as of {{date}} &middot; ~35 controls across 10 domains</div>
+
+<div class="snapshot-note">
+This page shows exactly what each finding in this audit was measured against.
+It is a snapshot taken on {{date}} — the standard this project's audits are
+judged against may be refined over time, so a later audit's criteria page may
+differ slightly from this one. Findings link here by control ID
+(e.g. "control 3.1").
+</div>
+
+<!-- One table per domain, one row per control. Populate from
+     references/audit-controls.md verbatim (Evidence / Green / Red), copying
+     the current wording at generation time. -->
+<h2 id="d1">1. Ownership and accountability</h2>
+<table>
+  <thead><tr><th>ID</th><th>Control</th><th>Evidence required</th><th>Green</th><th>Red</th></tr></thead>
+  <tbody>
+    <tr id="c1-1"><td>1.1</td><td>Named technical owner</td><td>{{evidence}}</td><td>{{green threshold}}</td><td>{{red threshold}}</td></tr>
+  </tbody>
+</table>
+<!-- repeat h2+table per domain (2 through 10), same structure -->

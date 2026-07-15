@@ -1,0 +1,103 @@
+<!-- Fill in {{placeholders}}. Self-contained: no external CSS/JS/fonts/images.
+     This page is the ACTION DASHBOARD: blockers, severity counts, and the
+     5-action checklist live here, each linking into the detail pages.
+     Checkbox state persists per-browser via localStorage (key must be unique
+     per audit: use "audit-<repo>-<date>"). -->
+<title>Audit — {{project_name}} — {{date}}</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 760px; margin: 0 auto; padding: 0 1.5rem 3rem; line-height: 1.5; }
+  nav.topnav { position: sticky; top: 0; display: flex; gap: 0.4rem; padding: 0.6rem 0; margin: 0 -1.5rem 1.6rem; padding-left: 1.5rem; backdrop-filter: blur(8px); background: rgba(128,128,128,0.08); border-bottom: 1px solid rgba(128,128,128,0.25); z-index: 10; }
+  nav.topnav a { text-decoration: none; color: inherit; padding: 0.25rem 0.8rem; border-radius: 999px; font-size: 0.9rem; }
+  nav.topnav a.current { background: rgba(128,128,128,0.25); font-weight: 600; }
+  nav.topnav a:hover:not(.current) { background: rgba(128,128,128,0.15); }
+  h1 { font-size: 1.5rem; margin: 1.2rem 0 0.2rem; }
+  .meta { opacity: 0.7; font-size: 0.9rem; margin-bottom: 1.2rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 1.6rem; }
+  .chip { text-decoration: none; color: inherit; border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.88rem; font-weight: 600; border: 1px solid transparent; }
+  .chip.blocker { background: rgba(220,38,38,0.15); border-color: rgba(220,38,38,0.4); }
+  .chip.red { background: rgba(220,38,38,0.08); border-color: rgba(220,38,38,0.3); }
+  .chip.amber { background: rgba(217,119,6,0.1); border-color: rgba(217,119,6,0.3); }
+  .chip.green { background: rgba(22,163,74,0.1); border-color: rgba(22,163,74,0.3); }
+  .chip.nv { background: rgba(107,114,128,0.12); border-color: rgba(107,114,128,0.3); }
+  h2 { font-size: 1.1rem; margin-top: 1.8rem; }
+  .blockers { border-left: 4px solid #dc2626; padding: 0.8rem 1rem; background: rgba(220,38,38,0.08); border-radius: 0 8px 8px 0; }
+  .blockers a, .todo a { color: inherit; }
+  .blockers-none { border-left: 4px solid #16a34a; padding: 0.8rem 1rem; background: rgba(22,163,74,0.08); border-radius: 0 8px 8px 0; }
+  ul.todo { list-style: none; padding: 0; margin: 0.8rem 0; }
+  ul.todo li { display: flex; gap: 0.7rem; align-items: flex-start; padding: 0.7rem 0.9rem; border: 1px solid rgba(128,128,128,0.3); border-radius: 8px; margin-bottom: 0.6rem; }
+  ul.todo input[type=checkbox] { margin-top: 0.3rem; width: 1.05rem; height: 1.05rem; accent-color: #16a34a; cursor: pointer; flex-shrink: 0; }
+  ul.todo li.done { opacity: 0.55; }
+  ul.todo li.done .txt { text-decoration: line-through; }
+  .cards { margin-top: 1.6rem; }
+  .card { display: block; border: 1px solid rgba(128,128,128,0.35); border-radius: 8px; padding: 0.9rem 1.1rem; margin-bottom: 0.8rem; text-decoration: none; color: inherit; }
+  .card:hover { background: rgba(128,128,128,0.08); }
+  .card h3 { margin: 0 0 0.25rem; font-size: 1rem; }
+  .card p { margin: 0; opacity: 0.75; font-size: 0.88rem; }
+  code { background: rgba(128,128,128,0.15); padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.88em; }
+</style>
+
+<nav class="topnav">
+  <a class="current" href="index.html">Overview</a>
+  <a href="audit-report.html">Audit Report</a>
+  <a href="gap-register.html">Gap Register</a>
+  <a href="criteria.html">Criteria</a>
+</nav>
+
+<h1>Engineering Audit — {{project_name}}</h1>
+<div class="meta">{{date}} &middot; {{repo_url_or_path}}</div>
+
+<div class="chips">
+  <!-- counts link to the matching section/page; omit chips whose count is 0 (except blockers: show "No blockers" green chip) -->
+  <a class="chip blocker" href="audit-report.html#blockers">{{n}} immediate blocker(s)</a>
+  <a class="chip red" href="gap-register.html">{{n}} red</a>
+  <a class="chip amber" href="gap-register.html">{{n}} amber</a>
+  <a class="chip green" href="audit-report.html#findings">{{n}} green</a>
+  <a class="chip nv" href="audit-report.html#questions">{{n}} not verified</a>
+</div>
+
+<h2>Do these first</h2>
+<div class="blockers">
+  <!-- If none: swap this div for <div class="blockers-none">No immediate blockers identified.</div> -->
+  {{One line per immediate blocker, each linking to its report section, e.g.
+  <a href="audit-report.html#f-payments">Rotate the committed API key</a>}}
+</div>
+
+<h2>30-day plan</h2>
+<ul class="todo" id="todo">
+  <!-- one li per plan action, max 5. data-k must be stable across regenerations
+       so ticks survive a report update: use "a1".."a5". -->
+  <li><input type="checkbox" data-k="a1"><span class="txt"><strong>{{Feature}}:</strong> {{action}} — <a href="gap-register.html#g1">G1</a></span></li>
+</ul>
+
+<div class="cards">
+  <a class="card" href="audit-report.html">
+    <h3>Audit Report →</h3>
+    <p>Executive summary, findings by feature, questions, inspection boundary.</p>
+  </a>
+  <a class="card" href="gap-register.html">
+    <h3>Gap Register →</h3>
+    <p>Every Amber/Red finding as an actionable row with owner and target date.</p>
+  </a>
+  <a class="card" href="criteria.html">
+    <h3>Criteria →</h3>
+    <p>What each finding was measured against, as of this audit's date.</p>
+  </a>
+</div>
+
+<script>
+(function () {
+  var KEY = "audit-{{repo_slug}}-{{date}}"; // unique per audit
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+  document.querySelectorAll("#todo input[type=checkbox]").forEach(function (cb) {
+    var k = cb.getAttribute("data-k");
+    if (saved[k]) { cb.checked = true; cb.closest("li").classList.add("done"); }
+    cb.addEventListener("change", function () {
+      saved[k] = cb.checked;
+      cb.closest("li").classList.toggle("done", cb.checked);
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+    });
+  });
+})();
+</script>
