@@ -1,6 +1,6 @@
 {
   "name": "audit-software-project",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Installer for the audit-software-project Claude Code skill — an evidence-based engineering audit of a local repository.",
   "bin": {
     "audit-software-project": "bin/cli.js"
