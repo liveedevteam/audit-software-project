@@ -13,6 +13,10 @@ lifecycle/retention — then produces a self-contained HTML report organized
 by **product feature area**, not abstract domain number, with a prioritized
 30-day improvement plan capped at five actions.
 
+**[View a sample report →](https://liveedevteam.github.io/audit-software-project/sample-report/)**
+(fictional project, invented findings — illustrates the output format only;
+real audit reports contain confidential findings and are never published)
+
 ## What it does
 
 - **Read-only by default.** Never edits, deletes, or writes inside the
