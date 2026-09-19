@@ -1,6 +1,6 @@
 # Audit controls
 
-~35 controls across 10 domains. Each control lists the evidence to look for,
+47 controls across 13 domains (numbered 1 to 12 and 14; domain 13 is intentionally unused). Each control lists the evidence to look for,
 what Green requires, and what makes it Red. Amber is the space between —
 partial, inconsistent, or moderate-risk — call it out explicitly only where
 the boundary isn't obvious. Not Verified when evidence is inaccessible; state

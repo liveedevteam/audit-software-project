@@ -1,6 +1,6 @@
 ---
 name: audit-software-project
-description: Perform a minimum evidence-based engineering audit of a local software repository. Use when asked to audit a codebase, assess production readiness, check engineering controls, or produce a 30-day improvement plan for a project. Read-only unless the user explicitly authorizes remediation.
+description: Perform a minimum evidence-based engineering audit of a local software repository, or (full mode) a full software audit that adds read-only cloud inventory, ticket review, business-flow validation, independent AI review and a remediation plan. Use when asked to audit a codebase, assess production readiness, check engineering controls, run a full software or security audit, or produce a 30-day improvement plan for a project. Read-only unless the user explicitly authorizes remediation.
 ---
 
 # audit-software-project
@@ -14,6 +14,33 @@ threatens. Produce a concise, evidence-backed report with a prioritized
 
 This skill audits the **engineering system**, not individual engineers. Never
 rank, blame, or name people in findings.
+
+## Modes
+
+- **Quick mode (default).** The repository audit described in the rest of this
+  file: inventory, 47 controls, four HTML pages, 30-day plan capped at five
+  actions.
+- **Full mode (alpha; ask for a "full audit").** There is no CLI flag: `--mode full` is only shorthand you can type in your request. Use when the requester asks for a full
+  software audit that also covers infrastructure, environments, tickets,
+  business-flow validation and a remediation chain. Follow
+  `references/full-audit-method.md` (11 steps) instead of steps 2 to 7 below,
+  keep the non-negotiable rules, and read `references/guardrails.md` before the
+  first command. Findings are written to `findings.json`
+  (`references/findings-schema.md`), validated with
+  `scripts/validate_findings.py`. The system description goes in
+  `system-context.json` (`references/system-context-schema.md`) and the
+  report-level text in `audit.json` (`references/audit-json-schema.md`);
+  `scripts/audit_site.py` renders the overview with C4 level 1 and 2 diagrams,
+  the audit report and the findings register from the three files. Cloud
+  metadata is collected only with `scripts/aws_readonly_inventory.sh`.
+  Sub-agents (when available) use the prompts in `references/agent-prompts/`, and
+  every finding gets an independent review before it is reported; without
+  sub-agents, follow the self-review rules in `references/full-audit-method.md`. Status: alpha. The
+  control-based gap register and criteria pages are quick-mode only; see
+  `STATUS.md` for what is built and tested.
+
+If the requester does not say which mode, ask once: quick repository audit, or
+full audit including infrastructure and flow validation.
 
 ## Non-negotiable rules
 
@@ -211,7 +238,7 @@ plan appears before the feature detail; every control citation uses a
 short `(control n.n)` tag that is also a `<details>` toggle showing that
 control's Green/Red criteria inline; feature sections open with a static,
 worst-first state count (no totals/percentages); `criteria.html` is a
-per-audit snapshot of all ~35 controls' thresholds, generated fresh each
+per-audit snapshot of all 47 controls' thresholds, generated fresh each
 run so it reflects the criteria as they stood at that audit's date; gap
 IDs and findings cross-link between all four pages.
 
@@ -247,11 +274,31 @@ questions section.
 
 ## References
 
-- `references/audit-controls.md` — the 10 domains, ~35 controls, evidence
+- `references/audit-controls.md` — the 13 domains, 47 controls, evidence
   required, and Green/Red thresholds for each.
+
+- `references/full-audit-method.md` — the 11-step full-mode method with inputs,
+  outputs and gates.
+- `references/guardrails.md` — hard rules that apply in every mode.
+- `references/findings-schema.md` and `references/findings.schema.json` — the
+  finding format.
+- `references/agent-prompts/` — read-only analyst and reviewer prompt templates.
+- `references/system-context-schema.md` and `references/audit-json-schema.md` — inputs to the site generator.
+- `references/full-mode-artifacts.md` — scope, evidence index, flow validation and remediation file formats.
+
+## Scripts
+
+- `scripts/aws_readonly_inventory.sh` — guarded read-only AWS metadata inventory.
+- `scripts/secret_hunt.sh` — standard secret hunt, prints locations and types only.
+- `scripts/dependency_scan.sh` — lockfile-only dependency scan from a git ref.
+- `scripts/github_checks.sh` — read-only branch protection, security settings and PR review sample.
+- `scripts/validate_findings.py` — validates `findings.json` and rejects secret-looking evidence.
+- `scripts/build_findings_register.py` — renders `findings.json` as the findings register page.
+- `scripts/audit_site.py` — renders the overview (C4 diagrams, domains, flows, dashboard), audit report and findings register from `findings.json`, `system-context.json` and `audit.json`.
 
 ## Assets
 
+- `assets/sample/` — fictional `findings.sample.json`, `system-context.sample.json` and `audit.sample.json` for testing the scripts.
 - `assets/index-template.html` — entry-point action dashboard linking the other three pages.
 - `assets/audit-report-template.html` — report structure to fill in (HTML, self-contained).
 - `assets/gap-register-template.html` — gap register table structure (HTML, self-contained).

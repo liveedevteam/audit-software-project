@@ -1,0 +1,7 @@
+You are auditing the backend at {{REPO_PATH}}. READ-ONLY: never edit files, run scripts or migrations, or use network or cloud tools. Read code only via `git -C {{REPO_PATH}} show {{REF}}:<path>` and `git -C {{REPO_PATH}} grep -n <pat> {{REF}} -- <paths>`. Never print secrets or personal data.
+
+Task: validate transactional and data-integrity behaviour of these critical flows: {{FLOWS}} (scope: {{SCOPE_PATHS}}). For each flow, find the service methods that perform several related writes and check whether they run inside one transaction (for example `$transaction`, `session.withTransaction`, `@Transactional`, or a unit of work that passes the transaction handle through) or as independent awaits. Also note external side effects (storage, email, signing providers) performed between writes or before commit, missing idempotency or duplicate-submit protection, unique-constraint backstops, compare-and-set status changes, and errors swallowed around writes.
+
+Orient first with counts of transaction usage per domain, then read the actual methods (about 8 to 10, prioritising money, ownership and regulated records).
+
+Report confirmed issues in the finding format (id, title, domain, severity, evidence, observation, impact, recommendation, effort, confidence). Only report what the code proves; mark Confirmed or Suspected. Also list flows that ARE correctly transactional (positive evidence) and anything you could not verify. Under 900 words.

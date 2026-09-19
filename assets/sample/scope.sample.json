@@ -1,0 +1,9 @@
+{
+  "project": "Acme Booking Portal (fictional sample)",
+  "audit_type": "Full software audit",
+  "in_scope": ["backend", "database", "ci-cd", "security", "testing", "documentation"],
+  "environments": { "dev": "read-only", "uat": "none", "prd": "read-only" },
+  "out_of_scope": ["penetration testing against production", "third-party internal systems"],
+  "authorization": { "cloud": "read-only profile approved by the requester", "tickets": "none", "chat": "none" },
+  "risk_profile": { "customer_facing": true, "personal_data": true, "payments": true, "external_api_consumers": false }
+}

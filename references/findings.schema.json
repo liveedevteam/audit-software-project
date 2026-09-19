@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "audit findings",
+  "type": "object",
+  "required": [
+    "project",
+    "date",
+    "findings"
+  ],
+  "properties": {
+    "project": {
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "domain",
+          "severity",
+          "evidence",
+          "observation",
+          "impact",
+          "recommendation",
+          "effort",
+          "confidence"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Z]{2,6}-\\d{3}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "domain": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "enum": [
+              "Critical",
+              "High",
+              "Medium",
+              "Low"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "observation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "impact": {
+            "type": "string",
+            "minLength": 1
+          },
+          "recommendation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "effort": {
+            "enum": [
+              "Small",
+              "Medium",
+              "Large"
+            ]
+          },
+          "confidence": {
+            "enum": [
+              "Confirmed",
+              "Suspected"
+            ]
+          },
+          "reachability": {
+            "enum": [
+              "unauthenticated",
+              "any-authenticated",
+              "internal",
+              "n/a"
+            ]
+          },
+          "verification": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "enum": [
+                  "lead",
+                  "independent-review",
+                  "self-review",
+                  "analyst",
+                  "automated",
+                  "metadata"
+                ]
+              },
+              "verdict": {
+                "enum": [
+                  "confirmed",
+                  "partially-confirmed",
+                  "refuted",
+                  "not-reviewed"
+                ]
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          },
+          "control": {
+            "type": "string",
+            "pattern": "^(\\d{1,2}\\.\\d{1,2}|ext)$"
+          },
+          "status": {
+            "enum": [
+              "open",
+              "superseded",
+              "fixed"
+            ]
+          },
+          "supersedes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ticket": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "human_approved": {
+      "type": "boolean"
+    }
+  }
+}

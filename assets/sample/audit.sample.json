@@ -1,0 +1,28 @@
+{
+  "project": "Acme Booking Portal (fictional sample)",
+  "date": "2026-01-15",
+  "auditor": "AI-assisted audit (fictional sample)",
+  "summary": [
+    "The most serious findings are in access control and tenant isolation: a public diagnostics route can return a secret, and booking records can be read or deleted across tenants by id.",
+    "The delivery pipeline runs checks but does not require them, and checkout writes are not atomic. Documentation is out of date but low risk.",
+    "Every finding is AI-proposed and was verified by the lead auditor or an independent reviewer; none is human-approved."
+  ],
+  "blockers": ["SEC-001"],
+  "plan": [
+    { "area": "Security", "action": "Remove the diagnostics route, stop interpolating secrets into errors, and rotate the secret.", "finding_ids": ["SEC-001"] },
+    { "area": "Tenant isolation", "action": "Add a shared tenant scope to every booking query and use scoped deletes.", "finding_ids": ["TEN-001"] },
+    { "area": "CI/CD", "action": "Require reviews and the CI jobs on the default branch.", "finding_ids": ["CICD-001"] },
+    { "area": "Data integrity", "action": "Make checkout a single transaction with an idempotency key.", "finding_ids": ["DB-001"] }
+  ],
+  "risk_context": "Fictional customer-facing platform that handles personal data and payments, hosted in the cloud, with no external API consumers.",
+  "questions": [
+    { "question": "Which roles can call the booking API directly?", "area": "Tenant isolation" },
+    { "question": "Is the diagnostics route used by any monitoring tool?", "area": "Security" }
+  ],
+  "not_reached": ["performance review", "accessibility"],
+  "boundary": {
+    "checked": "Source at the default branch, read-only cloud metadata, GitHub settings, a dependency scan and about 15 handlers traced by analyst agents.",
+    "not_checked": "Production data, IAM policies, runtime behaviour in DEV and UAT, penetration testing.",
+    "tools": "guarded cloud inventory, secret hunt, dependency scan, GitHub checks, findings validator"
+  }
+}

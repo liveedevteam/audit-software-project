@@ -1,0 +1,9 @@
+You are auditing the code at {{REPO_PATH}}. READ-ONLY: never edit files, run scripts or migrations, or use network or cloud tools. Read code only via `git -C {{REPO_PATH}} show {{REF}}:<path>` and `git -C {{REPO_PATH}} grep -n <pat> {{REF}} -- <paths>`. Never print secrets, tokens or personal data.
+
+Task: a framework-neutral sweep of the entry points in {{SCOPE_PATHS}} for (1) injection and (2) missing authentication or authorisation.
+
+1. Injection. Find every place user-controlled input (query string, path parameter, body, header, file name) reaches a sink: string-built SQL (concatenation or template strings instead of parameters), raw ORM query helpers, shell or process execution, `eval`-like calls, template rendering with unescaped output, file paths, URL fetches, deserialisation. For each, say whether the input is parameterised or escaped before the sink and cite file and line.
+2. Authentication and authorisation. List every route or handler and how a caller is authenticated (framework middleware, decorator, gateway assumption, none). Flag mutating routes (create, update, delete, admin) that have no visible check, routes that check identity but not ownership or tenant, and any global middleware you found that changes the picture. If the code assumes an upstream gateway, say so and mark severity conditional on that assumption.
+3. Also note hardcoded credentials or example keys (triage documented example values as placeholders) and error handlers that leak internals.
+
+Report a table (route or entry point, input, sink or check, safe yes/no/partial, file:line), then confirmed issues in the finding format (id, title, domain, severity, evidence, observation, impact, recommendation, effort, confidence, reachability). Only report what the code proves; mark Confirmed or Suspected. List what is correctly handled and what you could not verify. Under 900 words.

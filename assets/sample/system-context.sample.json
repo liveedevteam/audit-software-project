@@ -1,0 +1,84 @@
+{
+  "project": "Acme Booking Portal (fictional sample)",
+  "description": "Acme Booking Portal lets tenants (travel agencies) manage customers, bookings and payments for their own clients. This is a fictional example that shows the structure of the system context file.",
+  "timing_note": "Peak season starts on 1 March; bookings and checkout carry the highest-severity findings, so remediation should land before then.",
+  "stats": [
+    { "value": "2", "label": "repositories (API, web app)" },
+    { "value": "~25", "label": "backend modules" },
+    { "value": "3", "label": "environments: DEV, UAT, PRD" },
+    { "value": "4", "label": "external integrations" }
+  ],
+  "actors": [
+    { "id": "staff", "name": "Acme staff", "lines": ["Support and finance", "with role-based access"] },
+    { "id": "agents", "name": "Travel agencies (tenants)", "lines": ["Manage their own", "customers and bookings"], "finding_ids": ["TEN-001"] },
+    { "id": "travellers", "name": "Travellers", "lines": ["Pay and view bookings", "through emailed links"] }
+  ],
+  "actor_edges": [
+    { "from": "staff", "label": "uses web app" },
+    { "from": "agents", "label": "uses web app" },
+    { "from": "travellers", "label": "pay / view booking" }
+  ],
+  "system": {
+    "name": "Acme Booking Portal",
+    "lines": ["Booking management, checkout and", "invoicing for travel agencies"],
+    "finding_ids": ["SEC-001"]
+  },
+  "externals": [
+    { "id": "auth", "name": "Auth provider", "note": "sign-in, users", "finding_ids": ["SEC-001"] },
+    { "id": "pay", "name": "Payment provider", "note": "card payments" },
+    { "id": "mail", "name": "Email service", "note": "notifications" },
+    { "id": "maps", "name": "Maps API", "note": "address lookup" }
+  ],
+  "boundary_label": "Cloud region: one stack per environment (dev, uat, prd)",
+  "client_label": "Users reach the web app over HTTPS",
+  "external_caller": "api",
+  "containers": [
+    { "id": "web", "name": "Web app", "lines": ["React single-page app", "hosted on a CDN"], "placement": "client" },
+    { "id": "lb", "name": "Load balancer", "lines": ["HTTPS termination"], "placement": "inside", "tier": 0 },
+    { "id": "api", "name": "API", "lines": ["Node.js service", "container, 2 tasks per env"], "placement": "inside", "tier": 0, "finding_ids": ["SEC-001", "TEN-001", "DB-001"] },
+    { "id": "db", "name": "Database", "lines": ["PostgreSQL", "one shared database"], "placement": "inside", "tier": 1 },
+    { "id": "files", "name": "Object storage", "lines": ["invoices, uploads"], "placement": "inside", "tier": 1 },
+    { "id": "queue", "name": "Queue", "lines": ["email and export jobs"], "placement": "inside", "tier": 1 },
+    { "id": "ci", "name": "CI/CD", "lines": ["build, test, deploy", "on merge to main"], "placement": "outside", "finding_ids": ["CICD-001"] },
+    { "id": "obs", "name": "Observability", "lines": ["error tracking", "logs"], "placement": "outside" }
+  ],
+  "container_edges": [
+    { "from": "web", "to": "lb", "label": "HTTPS" },
+    { "from": "lb", "to": "api" },
+    { "from": "api", "to": "db", "label": "SQL" },
+    { "from": "api", "to": "files" },
+    { "from": "api", "to": "queue", "label": "enqueue" },
+    { "from": "ci", "to": "api", "label": "deploys", "dashed": true }
+  ],
+  "container_caption": "Fictional example.",
+  "domains": [
+    { "name": "Identity and access", "covers": "Sign-in, roles, tenants", "modules": "auth, users, tenants", "finding_ids": ["SEC-001", "TEN-001"] },
+    { "name": "Bookings and checkout", "covers": "Booking lifecycle, payment, invoices", "modules": "bookings, checkout, invoices", "finding_ids": ["DB-001"] },
+    { "name": "Platform support", "covers": "Notifications, reports, configuration", "modules": "notifications, reports, config", "finding_ids": [] }
+  ],
+  "stack": [
+    { "layer": "Frontend", "tech": "React, TypeScript, Vite" },
+    { "layer": "Backend", "tech": "Node.js, TypeScript, PostgreSQL via an ORM" },
+    { "layer": "Delivery", "tech": "GitHub Actions, Docker, container service with rolling deploys" }
+  ],
+  "environments": [
+    { "name": "DEV", "detail": "shared developer stack", "notes": "" },
+    { "name": "UAT", "detail": "pre-release testing", "notes": "" },
+    { "name": "PRD", "detail": "production", "notes": "read-only access for this audit" }
+  ],
+  "deployment_note": "Pull request, checks, merge, build, deploy.",
+  "deployment_steps": [
+    { "name": "Pull request", "lines": ["feature branch", "into main"] },
+    { "name": "CI", "lines": ["lint, test,", "build"] },
+    { "name": "Merge", "lines": ["no required review"], "finding_ids": ["CICD-001"] },
+    { "name": "Build image", "lines": ["Docker image", "pushed to registry"] },
+    { "name": "Deploy", "lines": ["rolling update", "health check"] }
+  ],
+  "flows": [
+    { "name": "Checkout", "what": "Customer pays, order and payment are recorded, stock reduced", "status": "Traced (transactions)", "finding_ids": ["DB-001"] },
+    { "name": "Booking access", "what": "Agency staff view and change bookings", "status": "Traced (tenant scoping)", "finding_ids": ["TEN-001"] },
+    { "name": "Account recovery", "what": "Password reset by email", "status": "Not yet traced", "finding_ids": [] }
+  ],
+  "access_model": "Every request passes the authentication guard; routes marked public skip it. Role checks are applied per route, and tenant scoping is applied per service, not by a global guard.",
+  "unconfirmed": ["where the CDN origin is configured", "queue hosting"]
+}

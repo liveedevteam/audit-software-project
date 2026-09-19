@@ -1,7 +1,7 @@
 {
   "name": "audit-software-project",
-  "version": "1.0.1",
-  "description": "Installer for the audit-software-project Claude Code skill — an evidence-based engineering audit of a local repository.",
+  "version": "2.0.0-alpha.0",
+  "description": "Installer for the audit-software-project Claude Code skill: an evidence-based engineering audit of a local repository (quick mode) and a full software audit method with read-only cloud inventory, flow validation and independent review (full mode, alpha).",
   "bin": {
     "audit-software-project": "bin/cli.js"
   },
@@ -9,7 +9,10 @@
     "bin",
     "SKILL.md",
     "references",
-    "assets"
+    "assets",
+    "scripts",
+    "STATUS.md",
+    "CHANGELOG.md"
   ],
   "engines": {
     "node": ">=16.7.0"
@@ -19,7 +22,10 @@
     "claude-skill",
     "code-audit",
     "engineering-standards",
-    "security-audit"
+    "security-audit",
+    "full-audit",
+    "aws-audit",
+    "findings"
   ],
   "license": "MIT",
   "repository": {

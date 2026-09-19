@@ -1,0 +1,73 @@
+{
+  "project": "Acme Booking Portal (fictional sample)",
+  "date": "2026-01-15",
+  "findings": [
+    {
+      "id": "SEC-001",
+      "title": "Public diagnostics route returns a secret in an error message",
+      "domain": "Security / Secrets",
+      "severity": "Critical",
+      "evidence": ["src/diagnostics/diag.controller.ts:40-72 (route marked public; catch block interpolates the API secret)"],
+      "observation": "An unauthenticated GET returns configuration details and, on an error path, the value of the API secret.",
+      "impact": "Anyone can obtain the secret and act as the service against the payment provider.",
+      "recommendation": "Remove the route, never interpolate secrets into errors, rotate the secret.",
+      "effort": "Small",
+      "confidence": "Confirmed",
+      "reachability": "unauthenticated",
+      "verification": { "method": "lead", "verdict": "confirmed", "note": "read the handler and its guard configuration" },
+      "control": "8.1"
+    },
+    {
+      "id": "TEN-001",
+      "title": "Booking records can be read and deleted across tenants by id",
+      "domain": "Security / Tenant isolation",
+      "severity": "High",
+      "evidence": ["src/bookings/bookings.service.ts:88 (findUnique by id only)", "src/bookings/bookings.controller.ts:31-44 (no tenant argument)"],
+      "observation": "Get and delete take a bare booking id and never compare the caller's tenant.",
+      "impact": "A user of one tenant can read or delete another tenant's bookings if an id is known or guessed.",
+      "recommendation": "Apply a shared tenant scope to every query and use scoped deletes.",
+      "effort": "Medium",
+      "confidence": "Confirmed",
+      "reachability": "any-authenticated",
+      "verification": { "method": "independent-review", "verdict": "confirmed", "note": "no ORM extension or global filter found" }
+    },
+    {
+      "id": "DB-001",
+      "title": "Checkout performs three dependent writes without a transaction",
+      "domain": "Database / Data integrity",
+      "severity": "Medium",
+      "evidence": ["src/checkout/checkout.service.ts:120-168"],
+      "observation": "Order, payment record and stock update are committed independently.",
+      "impact": "A failure part-way leaves an order without a payment record or stock not reduced.",
+      "recommendation": "Wrap the operation in one database transaction and add an idempotency key.",
+      "effort": "Small",
+      "confidence": "Confirmed",
+      "verification": { "method": "independent-review", "verdict": "partially-confirmed", "note": "impact lower than first stated: stock is reconciled nightly" }
+    },
+    {
+      "id": "CICD-001",
+      "title": "Default branch does not require reviews or passing checks",
+      "domain": "CI/CD",
+      "severity": "High",
+      "evidence": ["repository branch protection API: no required review rule, required checks list empty"],
+      "observation": "Direct pushes and unreviewed merges to the default branch are allowed.",
+      "impact": "Unreviewed changes can reach production.",
+      "recommendation": "Require pull requests, one review and the CI jobs as required checks.",
+      "effort": "Small",
+      "confidence": "Confirmed",
+      "verification": { "method": "metadata", "verdict": "confirmed" }
+    },
+    {
+      "id": "DOC-001",
+      "title": "Setup guide references a removed service",
+      "domain": "Documentation",
+      "severity": "Low",
+      "evidence": ["README.md:34-40"],
+      "observation": "The README tells new developers to start a service that no longer exists.",
+      "impact": "Slower onboarding.",
+      "recommendation": "Update the guide.",
+      "effort": "Small",
+      "confidence": "Confirmed"
+    }
+  ]
+}
