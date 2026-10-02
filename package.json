@@ -1,6 +1,6 @@
 {
   "name": "audit-software-project",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0",
   "description": "Installer for the audit-software-project Claude Code skill: an evidence-based engineering audit of a local repository (quick mode) and a full software audit method with read-only cloud inventory, flow validation and independent review (full mode, experimental).",
   "bin": {
     "audit-software-project": "bin/cli.js"
