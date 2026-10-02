@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.0
+
+First stable 2.x release. Install with `npx audit-software-project`.
+
+- Quick mode (repository audit, 47 controls, four HTML pages, 30-day plan) is stable.
+- Full mode (everything added in 2.0.0-alpha.0 below) ships as **experimental**: it runs end to end and was dry-run by a fresh session on 2026-09-19, but some parts are not built or only tested on one stack or one cloud account. See `STATUS.md`.
+- Docs: full mode relabelled from "alpha" to "experimental" in README.md and SKILL.md; STATUS.md updated to reflect what is published.
+
+Known limits: no gap-register or criteria pages for full mode, no scope intake, no remediation or ticket drafts, no full-mode re-audit comparison, agent prompts exercised only on a JavaScript/TypeScript backend with an ORM.
+
 ## 2.0.0-alpha.0
 
 Alpha of the full audit mode. Not recommended for production use yet; install with `npx audit-software-project@alpha`.

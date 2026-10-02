@@ -78,7 +78,7 @@ entry point.
 - Quick mode: Claude Code and a local git repository (Node 16.7 or newer for the installer).
 - Full mode adds: `python3` (3.8 or newer, standard library only) for the findings and site scripts, `git`, `npm` for the lockfile dependency scan, and optionally the `aws` CLI (with a read-only profile) and the `gh` CLI (authenticated) for the cloud and GitHub checks. Each check that lacks its tool is reported as Not Verified, not as a failure.
 
-## Full mode (v2.0 alpha)
+## Full mode (experimental)
 
 Ask for "a full software audit" and Claude follows an 11-step method:
 scope, evidence, system context, automated assistance, AI review, business
@@ -98,8 +98,9 @@ local. See `references/guardrails.md`.
 
 See a fictional full-mode example (overview with C4 diagrams, audit report, findings register): https://lk0l2n.github.io/audit-report-sample/
 
-Status: alpha skeleton. See `STATUS.md` for what is built and tested and what
-is still to do. The sample in `assets/sample/findings.sample.json` is fictional.
+Status: experimental. Quick mode is the stable part of 2.0.0; full mode works
+end to end but has known limits. See `STATUS.md` for what is built and tested
+and what is still to do. The sample in `assets/sample/findings.sample.json` is fictional.
 
 Try the scripts on the sample:
 
@@ -138,7 +139,7 @@ assets/criteria-template.html     # per-audit snapshot of all control thresholds
   reorder the items below before any of them are worth committing to.
 
 **Next (small, concrete):**
-- (done in 2.0.0-alpha.0) `--path` flag on the CLI, to install into a custom
+- (done in 2.0.0) `--path` flag on the CLI, to install into a custom
   skills directory instead of assuming `~/.claude/skills/`.
 - Stamp each generated report with the control-set version it ran
   against (the npm package version doubles as this identifier for free)

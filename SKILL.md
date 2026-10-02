@@ -20,7 +20,7 @@ rank, blame, or name people in findings.
 - **Quick mode (default).** The repository audit described in the rest of this
   file: inventory, 47 controls, four HTML pages, 30-day plan capped at five
   actions.
-- **Full mode (alpha; ask for a "full audit").** There is no CLI flag: `--mode full` is only shorthand you can type in your request. Use when the requester asks for a full
+- **Full mode (experimental; ask for a "full audit").** There is no CLI flag: `--mode full` is only shorthand you can type in your request. Use when the requester asks for a full
   software audit that also covers infrastructure, environments, tickets,
   business-flow validation and a remediation chain. Follow
   `references/full-audit-method.md` (11 steps) instead of steps 2 to 7 below,
@@ -35,7 +35,7 @@ rank, blame, or name people in findings.
   metadata is collected only with `scripts/aws_readonly_inventory.sh`.
   Sub-agents (when available) use the prompts in `references/agent-prompts/`, and
   every finding gets an independent review before it is reported; without
-  sub-agents, follow the self-review rules in `references/full-audit-method.md`. Status: alpha. The
+  sub-agents, follow the self-review rules in `references/full-audit-method.md`. Status: experimental. The
   control-based gap register and criteria pages are quick-mode only; see
   `STATUS.md` for what is built and tested.
 
